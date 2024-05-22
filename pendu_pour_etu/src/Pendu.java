@@ -96,6 +96,7 @@ public class Pendu extends Application {
     private Scene laScene(){
         BorderPane fenetre = new BorderPane();
         fenetre.setTop(this.titre());
+        panelCentral = new BorderPane();
         fenetre.setCenter(this.panelCentral);
         return new Scene(fenetre, 800, 1000);
     }
@@ -188,10 +189,32 @@ public class Pendu extends Application {
     }
 
     public void modeAccueil(){
+        panelCentral.getChildren().clear();
 
+        VBox accueil = new VBox(20);
+        accueil.setPadding(new Insets(20));
         Button LancerGame = new Button("Lancer une partie");
-        this.panelCentral.setTop(LancerGame);
 
+        RadioButton Facile = new RadioButton("Facile");
+        RadioButton Medium = new RadioButton("Medium");
+        RadioButton Difficile = new RadioButton("Difficile");
+        RadioButton Expert = new RadioButton("Expert");
+
+        ToggleGroup toggleGroup = new ToggleGroup();
+        Facile.setToggleGroup(toggleGroup);
+        Medium.setToggleGroup(toggleGroup);
+        Difficile.setToggleGroup(toggleGroup);
+        Expert.setToggleGroup(toggleGroup);
+
+        VBox vbox = new VBox(10); 
+        vbox.setPadding(new Insets(10));
+        vbox.getChildren().addAll(Facile, Medium, Difficile, Expert);
+
+        TitledPane titledPane = new TitledPane("Niveau de difficulté", vbox);
+        titledPane.setCollapsible(false);
+
+        accueil.getChildren().addAll(LancerGame, titledPane);
+        panelCentral.setCenter(accueil);
     }
     
     public void modeJeu(){
