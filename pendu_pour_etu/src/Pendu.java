@@ -1,6 +1,7 @@
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,13 +11,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.scene.control.Tooltip;
-import javafx.scene.control.TitledPane;
-import javafx.scene.layout.Region;
 import javafx.scene.text.TextAlignment;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar.ButtonData ;
-import javafx.scene.control.ButtonType ;
+
 import java.util.List;
 import java.util.Arrays;
 import java.io.File;
@@ -107,9 +104,47 @@ public class Pendu extends Application {
      * @return le panel contenant le titre du jeu
      */
     private Pane titre(){
-        // A implementer          
-        Pane banniere = new Pane();
+
+        BorderPane banniere = new BorderPane();
+        banniere.setBackground(new Background(new BackgroundFill(Color.valueOf("#EAEEFF"), CornerRadii.EMPTY, Insets.EMPTY)));
+        banniere.setPadding(new Insets(20));
+        HBox buttonBox = new HBox(10); 
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        
+        Label Titre = new Label("Jeu Du Pendu");
+        Titre.setFont(Font.font("Arial",FontWeight.BOLD, 32) ) ;
+
+
+
+        Button Accueil = new Button();
+        Button Settings = new Button();
+        Button Info = new Button();
+
+        ImageView accueilImageView = new ImageView(new Image("file:img/home.png"));
+        accueilImageView.setFitWidth(32); 
+        accueilImageView.setFitHeight(32); 
+        Accueil.setGraphic(accueilImageView);
+
+        ImageView settingsImageView = new ImageView(new Image("file:img/parametres.png"));
+        settingsImageView.setFitWidth(32); 
+        settingsImageView.setFitHeight(32); 
+        Settings.setGraphic(settingsImageView);
+
+        ImageView infoImageView = new ImageView(new Image("file:img/info.png"));
+        infoImageView.setFitWidth(32); 
+        infoImageView.setFitHeight(32); 
+        Info.setGraphic(infoImageView);
+
+        banniere.setLeft(Titre);
+        buttonBox.getChildren().addAll(Accueil, Settings, Info);
+        banniere.setRight(buttonBox);
+        BorderPane.setAlignment(buttonBox, Pos.CENTER_RIGHT);
+
+
         return banniere;
+
+
     }
 
     // /**
@@ -153,7 +188,10 @@ public class Pendu extends Application {
     }
 
     public void modeAccueil(){
-        // A implementer
+
+        Button LancerGame = new Button("Lancer une partie");
+        this.panelCentral.setTop(LancerGame);
+
     }
     
     public void modeJeu(){
