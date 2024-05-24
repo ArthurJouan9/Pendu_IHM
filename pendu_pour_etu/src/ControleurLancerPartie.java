@@ -1,6 +1,9 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+
 import java.util.Optional;
 
 /**
@@ -18,10 +21,11 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
 
     /**
      * @param modelePendu modèle du jeu
-     * @param p vue du jeu
+     * @param vuePendu vue du jeu
      */
     public ControleurLancerPartie(MotMystere modelePendu, Pendu vuePendu) {
-        // A implémenter
+        this.modelePendu = modelePendu;
+        this.vuePendu = vuePendu;
     }
 
     /**
@@ -30,15 +34,20 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        // A implémenter
-    
-        Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
-        // si la réponse est oui
-        if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
-            System.out.println("Ok !");
-        }
-        else{
-            System.out.println("D'ac !");
+        if (modelePendu.getNbLettresRestantes() < 26 ) {
+            // Si une partie est en cours, demander confirmation
+            Optional<ButtonType> reponse = vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attend la réponse
+            // si la réponse est oui
+            if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)) {
+                // L'utilisateur a confirmé, recommencer une nouvelle partie
+                vuePendu.lancePartie();
+                
+            }
+         else {
+            // Pas de partie en cours, recommencer directement une nouvelle partie
+            vuePendu.lancePartie();
+            
         }
     }
+}
 }
