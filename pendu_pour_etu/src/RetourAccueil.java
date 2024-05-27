@@ -1,7 +1,6 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
@@ -27,25 +26,17 @@ public class RetourAccueil implements EventHandler<ActionEvent> {
         this.vuePendu = vuePendu;
     }
 
-
     /**
      * L'action consiste à retourner sur la page d'accueil. Il faut vérifier qu'il n'y avait pas une partie en cours
      * @param actionEvent l'événement action
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        
-            
-           
-
-            Optional<ButtonType> result = vuePendu.popUpPartieEnCours().showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                // L'utilisateur a confirmé, retourner à l'accueil
-                vuePendu.modeAccueil();
-            }
-         else {
-            // Pas de partie en cours, retourner directement à l'accueil
+        Optional<ButtonType> result = vuePendu.popUpPartieEnCours().showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            // L'utilisateur a confirmé, retourner à l'accueil
             vuePendu.modeAccueil();
         }
+        // Si l'utilisateur clique sur "Non" ou ferme la boîte de dialogue, on ne fait rien
     }
 }
