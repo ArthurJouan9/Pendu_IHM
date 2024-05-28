@@ -9,11 +9,11 @@ import javafx.scene.control.Button;
 public class ControleurLettres implements EventHandler<ActionEvent> {
 
     /**
-     * modèle du jeu
+     * Modèle du jeu
      */
     private MotMystere modelePendu;
     /**
-     * vue du jeu
+     * Vue du jeu
      */
     private Pendu vuePendu;
 
@@ -21,8 +21,9 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      * @param modelePendu modèle du jeu
      * @param vuePendu vue du jeu
      */
-    ControleurLettres(MotMystere modelePendu, Pendu vuePendu){
-        // A implémenter
+    ControleurLettres(MotMystere modelePendu, Pendu vuePendu) {
+        this.modelePendu = modelePendu;
+        this.vuePendu = vuePendu;
     }
 
     /**
@@ -32,6 +33,27 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        // A implémenter
+        Button clickedButton = (Button) actionEvent.getSource();
+        String lettre = clickedButton.getText();
+        
+        // Désactiver le bouton cliqué
+        clickedButton.setDisable(true);
+
+        // Essayer la lettre dans le modèle
+        int correcte = modelePendu.essaiLettre(lettre.charAt(0));
+
+        // Mettre à jour l'affichage du mot crypté et du dessin du pendu
+        vuePendu.majAffichage();
+
+        // Vérifier si la partie est terminée
+        if (modelePendu.gagne()) {
+            vuePendu.chrono.stop(); // Arrêter le chronomètre
+            vuePendu.popUpMessageGagne().showAndWait();
+            vuePendu.modeAccueil();
+        } else if (modelePendu.perdu()) {
+            vuePendu.chrono.stop(); // Arrêter le chronomètre
+            vuePendu.popUpMessagePerdu().showAndWait();
+            vuePendu.modeAccueil();
+        }
     }
 }
