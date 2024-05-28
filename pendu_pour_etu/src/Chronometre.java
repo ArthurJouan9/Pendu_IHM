@@ -6,60 +6,44 @@ import javafx.util.Duration;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 
-
-/**
- * Permet de gérer un Text associé à une Timeline pour afficher un temps écoulé
- */
-public class Chronometre extends Text{
-    /**
-     * timeline qui va gérer le temps
-     */
+public class Chronometre extends Text {
     private Timeline timeline;
-    /**
-     * la fenêtre de temps
-     */
     private KeyFrame keyFrame;
-    /**
-     * le contrôleur associé au chronomètre
-     */
     private ControleurChronometre actionTemps;
 
-    /**
-     * Constructeur permettant de créer le chronomètre
-     * avec un label initialisé à "0:0:0"
-     * Ce constructeur créer la Timeline, la KeyFrame et le contrôleur
-     */
-    public Chronometre(){
-        // A implémenter
+    public Chronometre() {
+        super("0 s"); // Initializing the label to "0 s"
+        setFont(new Font(20));
+        setTextAlignment(TextAlignment.CENTER);
+        actionTemps = new ControleurChronometre(this);
+        keyFrame = new KeyFrame(Duration.seconds(1), actionTemps);
+        timeline = new Timeline(keyFrame);
+        timeline.setCycleCount(Animation.INDEFINITE);
     }
 
-    /**
-     * Permet au controleur de mettre à jour le text
-     * la durée est affichée sous la forme m:s
-     * @param tempsMillisec la durée depuis à afficher
-     */
-    public void setTime(long tempsMillisec){
-        // A implémenter
+    public void setTime(long tempsMillisec) {
+        long seconds = tempsMillisec / 1000;
+        long minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        if (minutes > 0) {
+            setText(minutes + " min " + seconds + " s");
+        } else {
+            setText(seconds + " s");
+        }
     }
 
-    /**
-     * Permet de démarrer le chronomètre
-     */
-    public void start(){
-        // A implémenter
+    public void start() {
+        timeline.play();
     }
 
-    /**
-     * Permet d'arrêter le chronomètre
-     */
-    public void stop(){
-        // A implémenter
+    public void stop() {
+        timeline.stop();
     }
 
-    /**
-     * Permet de remettre le chronomètre à 0
-     */
-    public void resetTime(){
-        // A implémenter
+    public void resetTime() {
+        stop();
+        actionTemps.reset();
+        setText("0 s");
     }
 }
